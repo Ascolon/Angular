@@ -1,0 +1,42 @@
+{
+  "name": "naruto",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "ng": "ng",
+    "electron": "electron .",
+    "start": "ng build && electron .",
+    "electron-package": "ng build --prod && electron-packager . --platform=win32 --arch=ia32 --no-prune --ignore=/node_modules --ignore=/e2e --ignore=/src --overwrite"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^0.4.0",
+    "@angular/animations": "^6.0.0",
+    "@angular/common": "^6.0.0",
+    "@angular/compiler": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@angular/forms": "^6.0.0",
+    "@angular/http": "^6.0.0",
+    "@angular/platform-browser": "^6.0.0",
+    "@angular/platform-browser-dynamic": "^6.0.0",
+    "@angular/platform-server": "^6.0.0",
+    "@angular/router": "^6.0.0",
+    "bootstrap": "4.0.0-beta.2",
+    "core-js": "^2.5.6",
+    "font-awesome": "^4.7.0",
+    "rxjs": "^6.1.0",
+    "zone.js": "^0.8.26"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.6.0",
+    "@angular/cli": "^6.0.0",
+    "@angular/compiler-cli": "^6.0.0",
+    "@angular/language-service": "6.0.0",
+    "@types/node": "^10.0.4",
+    "codelyzer": "^4.3.0",
+    "electron": "^2.0.0",
+    "ts-node": "^6.0.3",
+    "tslint": "^5.10.0",
+    "typescript": "^2.7.2"
+  }
+}

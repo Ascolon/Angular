@@ -1,0 +1,117 @@
+<div class="container main-body">
+  <div class="header">
+    <div class="col-md-1 app-icon">
+        <button (click)="slideBack()" 
+                *ngIf="ifHasHistory()" 
+                class="go-back-btn glyphicon glyphicon-arrow-left"></button>
+    </div>
+    <div class="col-md-9 header-title">
+      JoyCasino
+    </div>
+    <div class="col-md-2 manage">
+      <button id="minimize-window" class="fa fa-window-minimize"></button>
+      <button id="restore-window" class="fa fa-window-restore"></button>
+      <button id="close-window" class="fa fa-times"></button>
+    </div>
+  </div>
+  <!--ОСНОВНОЕ МЕНЮ-->
+
+  <div class="left-side-menu">
+    <ul class="menu-list">
+      <a [routerLink]="['']" style="text-decoration:none;"
+         class="main-menu-link"
+         routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <li class="category-container">
+          <span  *ngIf='showTooltip' class="tooltip-menu" style="z-index: 101;"  >главная</span>
+          <div class="category">
+            <i class="category-icon fa fa-home"></i>
+          </div>
+        </li>
+      </a>
+      <li class="menu-divider"></li>
+      <li class="category-container main-menu-link" [style.color]="rla.isActive ? '#1696FF': 'white'"  >
+        <div class="category">
+          <i class="category-icon fa fa-film"></i>
+        </div>
+        <ul class="genre-list" [routerLinkActive]="" #rla="routerLinkActive">
+          <a [routerLink]="['bygenre', genre]"
+             *ngFor="let genre of genres">
+            <li>{{genre}}</li>
+          </a>
+        </ul>
+      </li>
+      <!-- <a [routerLink]="['radio']" class="main-menu-link" routerLinkActive="active-link">
+        <li class="category-container">
+          <span *ngIf='showTooltip' class="tooltip-menu">радио</span>
+          <div class="category">
+            <i class="category-icon fa fa-music"></i>
+          </div>
+        </li>
+      </a> -->
+      <a [routerLink]="['favorite']" class="main-menu-link" routerLinkActive="active-link">
+        <li class="category-container" *ngIf="show_favorite">
+          <span *ngIf='showTooltip' class="tooltip-menu">избранное</span>
+          <div class="category">
+            <i class="category-icon fa fa-heart-o"></i>
+          </div>
+        </li>
+      </a>
+      <a [routerLink]="['setting']" class="main-menu-link" routerLinkActive="active-link">
+        <li class="category-container">
+          <span *ngIf='showTooltip' class="tooltip-menu">настройки</span>
+          <div class="category">
+            <i class="category-icon fa fa-cog"></i>
+          </div>
+        </li>
+      </a>
+      <li class="category-container cp-logo" (click)="open_cp()" style="bottom:0; position:absolute;">
+        <div class="category" >
+          <i    *ngIf="!user_authorized" style="font-size: 30px" class="category-icon fa fa-user-circle"></i>
+          <img  *ngIf="user_authorized" style="padding: 3px; height: 100%; width: 100%" [src]="current_user_avatar"/>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="router-body">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="app-login-container" *ngIf="IsAutentification">
+    <app-login></app-login>
+    <div style="display: flex; align-items:flex-start; height:600px;">
+      <button (click)="IsAutentification=false" class="fa fa-close close-login-modal"></button>
+    </div>
+
+  </div>
+</div>
+<div class="app-exit-modal">
+  <div class="ask-exit">
+    <div>
+      <label id="exit-save-label">
+        <input id="exit-save" name="radio-exit" type="radio"/>
+        <span class="fake-checkbox"></span>
+        <span style="margin-bottom: 3px;">свернуть в трей</span>
+      </label>      
+    </div>
+    <div>
+      <label id="exit-not-save-label">
+        <input name="radio-exit" id="exit-not-save" type="radio"/>
+        <span class="fake-checkbox"></span>
+        <span style="margin-bottom: 3px;">закрыть</span>
+      </label>
+    </div>
+
+    <div class="no-ask-more">
+      <label class="tray_select">
+        <input  class="tray" style="display: none;" type="checkbox"/>
+        <span class="fake-checkbox-nomore"></span>
+        <span class="check_tray_text">запомнить</span>
+      </label>
+    </div>
+
+    <div class="btns" style="width: 250px; padding-left: 20px; margin-top: 10px;">
+        <button style="width: 100px" class="btn btn-primary">OK</button>
+        <button style="border: none; background: transparent;" class="btn btn-danger">CANCEL</button>
+    </div>
+  </div>
+</div>
+

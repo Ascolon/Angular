@@ -1,0 +1,43 @@
+.radio-container{
+    padding: 50px;
+}
+.radio-item{
+    padding: 5px;
+    height: 200px;
+    width: 200px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.6);
+    /* background-color: rgba(255, 255, 255, 0.637); */
+}
+.radio-item:hover .top-panel{
+    display: flex;
+}
+.station_img{
+    height: 100%;
+}
+.station-name{
+    padding-top: 10px;
+}
+.top-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.6);
+    height: 100%;
+    width: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 16px;
+}
+.now-playing {
+    border: 1px solid #109492;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    margin: 15px;
+    width: 400px;
+    margin-left: 50px;
+}

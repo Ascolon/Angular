@@ -1,0 +1,99 @@
+.cabinet-container{
+  padding: 50px;
+}
+.header-setting{
+  color: white;
+  font-size: 24px;
+  padding-top: 30px;
+}
+.greetting{
+  color: white;
+  font-size: 32px;
+}
+.user-data-input{
+
+}
+.avatar-container{
+  height: 128px;
+  display: flex;
+  justify-content: flex-start;
+  width: 20% !important;
+}
+.avatar-img{
+  height: 100%;
+}
+.change-avatar, .change-avatar-show-select{
+  color: white;
+  font-size: 30px;
+}
+.change-avatar-show-select{
+  margin-top: 30px;
+}
+.setting-list{
+  padding-top: 40px;
+}
+.logout{
+  float: right;
+  border-radius: 0;
+  width: 80px;
+}
+.avatar-list{
+  height: 300px;
+  width: 300px;
+  position: absolute;
+  top: 0%;
+  padding: 5px;
+  left: 100%;
+  background-color: #2d364c;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+  overflow-y: scroll;
+}
+.avatar-list-item{
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avatar-list-item img{
+  width: 100%;
+}
+.select-avatar-btn{
+  width: auto !important;
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+}
+.select-avatar{
+  display: none;
+  color: white;
+  font-size: 24px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 99;
+  font-size: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.avatar-list-item:hover .select-avatar{
+  display: flex;
+  color: rgb(61, 190, 61);
+  background-color: rgba(0, 0, 0, .6);
+}
+.change-container {
+  margin-right: 30px;
+}
+.change-container button {
+  color: white;
+  font-size: 25px;
+}
+.input-field {
+  margin-left: 20px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #26d6bd;
+  width: 200px;
+  color: white;
+  outline: none;
+}

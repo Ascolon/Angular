@@ -1,0 +1,17 @@
+<div class="col-md-12 setting-container">
+  <h2>настройки</h2>
+
+  <label class="tray_select">
+    <input  [checked]="traySave" (change)="setTrayValue($event.target.checked)" class="tray"
+    style="display: none;" type="checkbox"/>
+    <span class="fake-checkbox"></span>
+    <span class="check_tray_text">сворачивать в трей</span>
+  </label>
+
+  <label class="tray_select">
+    <input [checked]="tooltipSave" (change)="setTooltipValue($event.target.checked)" class="tray"
+    style="display: none;" type="checkbox"/>
+    <span class="fake-checkbox"></span>
+    <span class="check_tray_text">показывать подсказки</span>
+  </label>
+</div>

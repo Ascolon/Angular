@@ -1,0 +1,54 @@
+<div class="user-loader" *ngIf="loading">
+  <div class="spinner"></div>
+</div>
+<div class="failed" *ngIf="failed">
+    <div class="error-load">
+      <button (click)="startLoad()" class="try-loading fa fa-refresh"></button>
+    </div>
+    <span style="font-size:18px; color:white;">Проблемы с доступом к JoyСasino</span>
+</div>
+<div class="row margin-btm header-search-sort">
+  <div class="col-md-3 update-header">
+    <span>{{genre}}</span>
+  </div>
+  <div class="col-md-4 drop">
+    <span style="width:100px;">сортировать: </span>
+    <ul>
+      <li class="sort-type-container">{{ sort_view }}
+        <ul class="options" >
+          <li *ngIf="!isSelected('по умолчанию')" (click)="setSortParam('id','по умолчанию');" class="option">по умолчанию</li>
+          <li *ngIf="!isSelected('по году')" (click)="setSortParam('year', 'по году');" class="option">по году</li>
+          <li *ngIf="!isSelected('по году(убывание)')" (click)="setSortParam('year_desc', 'по году(убывание)');" class="option">по году(убывание)</li>
+          <li *ngIf="!isSelected('по названию')" (click)="setSortParam('name', 'по названию');" class="option">по названию</li>
+          <li *ngIf="!isSelected('по названию(убывание)')" (click)="setSortParam('name_desc', 'по названию(убывание)');" class="option">по названию(убывание)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-4 search">
+    <input maxlength='10' placeholder="Поиск по названию" [(ngModel)]="searching">
+    <a [routerLink]="['../../search', searching]" *ngIf="searching.length >= 3" class="fa fa-search search-name"></a>
+  </div>
+</div>
+<div class="row top-pdg movie-item-container" (scroll)="uploadItems($event)">
+  <div class="col-md-2 movie-item"
+       *ngFor="let movie of movies | search:searching | orderBy:sort_prop"
+       appHovered>
+    <a [routerLink]="['../../film', movie.FilmId]">
+      <div class="hidden-panel" >
+        <p>{{ movie.Name }}</p>
+        <p>({{ movie.Year }})</p>
+        <div class="imdb">
+          <i style="font-size: 26px;" class="fa fa-imdb"></i>
+          <span style="margin-left: 18px; font-size: 18px;font-weight: 100;">{{ movie.Imdb }}</span>
+        </div>
+      </div>
+    </a>
+    <img class="poster" [src]="movie.Poster">
+  </div>
+  <div class="col-md-12 upload-loader" *ngIf='upload'>
+    <div class="inner-loader-upload">
+
+    </div>
+  </div>
+</div>

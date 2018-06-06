@@ -1,0 +1,31 @@
+<!-- <div class="col-md-12 search_res_container" *ngIf="movies.length > 0">
+  <span class="header">
+    Результаты поиска по запросу <span>[{{ name }}]</span>
+  </span>
+</div> -->
+<div class="repeat-search" *ngIf="movies.length == 0">
+    <span class="cry-search">к сожелению по вашему запросу нету ничего</span>
+    <div class="input-container">
+      <input type="text" [(ngModel)]="name">
+      <button (click)="startLoad()" class="fa fa-search"></button>
+    </div>
+</div>
+<div class="repeat-search" *ngIf="movies.length > 0">
+    <span class="cry-search">найдено {{ movies.length }} совпадений</span>
+    <div class="input-container">
+      <input type="text" [(ngModel)]="name">
+      <button (click)="startLoad()" class="fa fa-search"></button>
+    </div>
+</div>
+<div class="row top-pdg movie-item-container" *ngIf="movies.length > 0">
+  <div class="col-md-2 movie-item"
+        *ngFor="let movie of movies" appHovered>
+      <a [routerLink]="['../../film', movie.FilmId]">
+      <div class="hidden-panel" >
+        <p style="text-align: center">{{ movie.Name }}</p>
+        <p>({{ movie.Year }})</p>
+      </div>
+    </a>
+    <img class="poster" [src]="movie.Poster">
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="col-md-12 cabinet-container">
+  <span class="greetting">здравствуйте {{ userName.toString() }}!</span>
+  <button (click)="logout()" class="logout btn btn-primary">выйти</button>
+  <div class="col-md-12 setting-list">
+    <button (click)="IsCnahgePassword=true" style="margin-right: 20px" class="btn btn-primary">сменить пароль</button>
+    <span class="change-container" *ngIf="IsCnahgePassword">
+      <input style="padding-left: 10px;" placeholder="новый пароль" type="text" class="input-field" #input>
+      <button (click)="changePassword(input.value)" style="margin-left: 20px;" class="fa fa-check"></button>
+      <button (click)="IsCnahgePassword=false" class="fa fa-remove"></button>
+    </span>
+    <button (click)="continueLastViewed()" class="btn btn-primary">продолжить просмотр</button>
+  </div>
+</div>

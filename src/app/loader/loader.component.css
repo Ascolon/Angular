@@ -1,0 +1,29 @@
+.user-loader{
+    height: calc(100% - 40px);
+    width: calc(100% - 40px);
+    position: fixed;
+    display: flex;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    background-color: #353F59;
+  }
+  .spinner{
+    height: 100px;
+    width: 100px;
+    background-color:transparent;
+    border-radius: 50%;
+    border: 5px solid #15B754;
+    border-bottom: 5px solid transparent;
+    animation: spiner linear 1.0s infinite;
+  }
+  
+  @keyframes spiner{
+    from{
+        transform: rotate(0deg);
+  
+    }
+    to{
+        transform: rotate(360deg);
+    }
+  }

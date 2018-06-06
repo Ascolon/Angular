@@ -1,0 +1,22 @@
+<div class="user-loader" *ngIf="loading">
+    <div class="spinner"></div>
+</div>
+<div class="failed" *ngIf="failed">
+  <div class="error-load">
+    <button (click)="startLoad()" class="try-loading fa fa-refresh"></button>
+  </div>
+  <span style="font-size:18px; color:white;">Проблемы с доступом к JoyСasino</span>
+</div>
+<div class="col-md-12 no_favorite" *ngIf="noFavorite || movies.length == 0">
+  <span>у вас нет закладок</span>
+</div>
+
+<div class="row top-pdg movie-item-container" *ngIf="!noFavorite" >
+    <div class="col-md-2 movie-item" *ngFor="let movie of movies; let i = index" appHovered>
+      <div class="hidden-panel">
+        <button class="fa fa-trash-o" (click)='removeFavorite(i, movie)' ></button>
+        <a [routerLink]="['../film', movie.FilmId]" class="fa fa-play"></a>
+      </div>
+    <img class="poster" [src]="movie.Poster">
+  </div>
+</div>

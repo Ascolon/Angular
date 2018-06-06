@@ -1,0 +1,169 @@
+<div class="user-loader" *ngIf="loading">
+  <div class="spinner"></div>
+</div>
+<!--КОМПОНЕНТ АНИМАЦИИ ЗАГРУЗКИ -->
+<!-- <app-loader *ngIf="loading"></app-loader> -->
+
+
+<!--КОМПОНЕН ЕСЛИ ПРОИЗОШЛА ОШИБКА ЗАГРУЗКИ ОТВЕТА ОТ HTTP ЗАПРОСА -->
+<div class="failed" *ngIf="failed">
+    <div class="error-load">
+      <button (click)="startLoad()" class="try-loading fa fa-refresh"></button>
+    </div>
+    <span style="font-size:18px; color:white;">Проблемы с доступом к JoyСasino</span>
+</div>
+
+<!-- ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ ФИЛЬМА С ПРОКРУТКОЙ И ФИКСИРОВАНОЙ ВЫСОТОЙ -->
+<div class="scrolable" #container (scroll)="slideVideoToRight($event)" id="scrolable">
+  <div class="show-if-cange-favorite" *ngIf="add_favorite_change" @topItem>
+    {{ add_favorite_result }}
+  </div>
+  <div class="col-md-12 film-container">
+  <!-- FIRST VIEW BEGIN -->
+  <div class="col-md-12 first-view" id="first-view">
+    <img class="col-md-4 film-poster" [src]="movie.Poster">
+    <div class="col-md-8" style="padding-left: 20px">
+      <!--тут будет показано имя и год фильма-->
+      <div class="col-md-12" style="height:50px;">
+        <span class="film-name">{{movie.Name}}</span><span class="film-year">({{movie.Year}})</span>
+      </div>
+      <!--начало блока с кнопками добавления в избраное и комментирования-->
+      <div class="col-md-12 film-info">
+         <!--кнопка избранного. добавляте или удаляет из избраного-->
+        <button (mouseover)="showElseNeedLoginForLike = !needAutorization()"
+                (mouseout)="showElseNeedLoginForLike = needAutorization()"
+                class="add-favorite favorite_count"
+                [ngClass]="{'is_favorite': IsLike }" (click)="like()">
+          <i class="fa fa-heart-o"></i>
+          <i style="margin-left: 15px;" class="count_favorite">{{movie.InFavorites}}</i>
+          <div class="need-autorization like" *ngIf="showElseNeedLoginForLike && !needAutorization()">
+              Необходимо авторизоваться
+          </div>
+        </button>
+
+        <!--кнопка добавления коммента. проскроливает до блока с коментами-->
+        <button style="width: 75px;" class="go-comment" 
+        (mouseover)="showElseNeedLoginForComment = !needAutorization()"
+        (mouseout)="showElseNeedLoginForComment = needAutorization()">
+          <i class="fa fa-comment-o"></i>
+          <i style="margin-left: 15px;" class="count_comment">{{CommentCount}}</i>
+          <div class="need-autorization comment" *ngIf="showElseNeedLoginForComment && !needAutorization()">
+              Необходимо авторизоваться
+          </div>
+        </button>
+
+        <!--кнопка воспроизведения. проскроливает до блока  с фильмом-->
+        <button class="play-film last_viewed" 
+                (click)="isLastViewed ? continueBrowsing() : container.scrollTop = video.getBoundingClientRect().top-100;video.play()">
+            <i style="padding-left:5px;" class="fa fa-play"></i>
+            <span style="font-size: 18px; padding-left: 10px;" *ngIf="isLastViewed">
+              продолжить
+            </span>
+        </button>
+      </div>
+      <!--конец блока с кнопками добавления в избраное и комментирования-->
+      <span class="col-md-12 view-span" style="font-weight:bold">Обзор</span>
+      <p class="film-desc">
+          {{ movie.Description }}
+      </p>
+    </div>
+  </div>
+  <!-- FIRST VIEW END -->
+
+  <!-- SECOND VIEW BEGIN -->
+  <div class="col-md-12 second-view">
+    <div class="col-md-12 chains" id="chains">
+      <!-- <div class="poster" (click)="setPause(video)" *ngIf="playible" >
+        <i class="fa fa-play"></i>
+      </div> -->
+      <!--блок с видео-->
+      <div id="if_video_move">
+        <div class="overlay" *ngIf="video.paused" (click)="video.play()">
+          <i class="fa fa-play" style="font-size: 100px;"></i>
+        </div>
+        <video id="video_player" (click)="setPause(video);" #video  
+                [src]="movie.Video" 
+                class="col-md-12"
+                controls preload="auto" controlsList="nodownload">
+        </video>
+      </div>
+    </div>
+    <!--НАЧАЛО всей разметки для комментариев-->
+    <!--заголовок-->
+    <div class="col-md-12 no-padding comment-header">
+      <span style="font-weight: 100">комментарии</span>
+    </div>
+    <div class="col-md-12 no-padding comment-container" *ngIf="!showElseNeedLoginForCommentBlock" >
+      <div class="currnet_user_avatar">
+        <img style="height: 100%; width: 100%" [src]="current_user_avatar"/>
+      </div>
+      <div class="textarea-input">
+        <!--поле для ввода комментариев-->
+        <textarea #commentarea maxlength="200" id="text_area" 
+                  (blur)="edit_mode = commentarea.value.length===0 ? false : edit_mode"
+                  rows="1" 
+                  (keydown)="appendBr($event.target)" 
+                  class="comment-input"></textarea>
+                  <span style="color:white;padding-left:10px;">{{ commentarea.value.length }} / 200</span>
+        <!--кнопка для добавления коммента. добавляет в коменты тексткоторые в поле для комментария-->
+        <button [disabled]="commentarea.value.length <= 10" *ngIf="!edit_mode"
+                (click)="addComment(commentarea.value);commentarea.value='';commentarea.style.height ='25px'" 
+                style="margin-top:10px; float:right;" class="btn btn-primary add-commentarea">Оставить комментарий</button>
+
+         <!--кнопка для исправления коммента. правит выбраный комент-->
+        <button [disabled]="commentarea.value.length <= 10" *ngIf="edit_mode"
+                (click)="editComment();commentarea.value='';commentarea.style.heigh ='25px'" 
+                style="margin-top:10px; float:right;" class="btn btn-primary add-commentarea">Сохранить</button>
+        
+        <!--отмена операции с правкой или добавлениемкоммента-->
+        <button (click)="commentarea.value='';commentarea.style.height='25px'" 
+                style="margin-top:10px; float:right;" 
+                class="btn btn-primary cancel-comment">Cancel</button>
+      </div>
+    </div>
+    <!--буднт показано если пользователь не авторизован.предложит войти-->
+    <div class="col-md-12 need_login_for_comment" *ngIf="showElseNeedLoginForCommentBlock">
+      <span>что бы оставить комментарий необходимо авторизоваться</span>
+    </div>
+    <!--НАЧАЛО генерации разметки для комментариев.будет показано 20 последних-->
+    <div class="col-md-12" *ngFor="let comment of Comments;let i = index;">
+      <div class="current-comment">
+        <div class="author-avatar">
+          <img class="author-avatar-img" [src]="comment.AuthorAvatar"/>
+        </div>
+      <!--НАЧАЛО контрейнер с комментом-->
+      <div class="current-comment-text-container">
+          <div  #curCmtText class="current-comment-text" [innerHTML]="comment.Text | trustStyle"></div>  <!-- trustStyle -->
+          <div class="current-comment-author-name">
+            <div class="current-comment-author-name-div-name">
+              <span class="fa fa-user"></span>
+              <span style="padding-left: 10px;">{{comment.Author}}</span>
+              <span style="margin-left: 20px; color: rgba(255, 255, 255, 0.3);">добавлено: 
+                <span class="edit-time">{{ comment.Time | time }}</span>
+              </span>
+              <button *ngIf="IsMyComment(comment.Author)" 
+                      (click)="prepareEditComment(i,comment.CommentId)"
+                      class="go-edit-comment">изменить</button>
+            </div>
+            <!-- <div class="current-comment-author-name-div-time">{{comment.Time | time}}</div> -->
+          </div>
+      </div>
+      <!--КОНЕЦ контейнер с комментом-->
+      </div>
+    </div>
+    <!--КОНЕЦ генерации разметки для комментариев.будет показано 20 последних-->
+
+    <!--блок с кнопкой подрузки комментаривев.если всего коментов менее 20 то он а будет скрыта-->
+    <div *ngIf="Comments.length >= 20" class="col-md-12" style='display: flex; justify-content: center; margin-top: 30px;'>
+        <button style="margin-top:10px;" class="btn btn-primary add-comment" (click)="uploadComment()">
+          <span *ngIf="!upload" >показать другие комментарии</span>
+          <span *ngIf="upload" >загрузка...</span>
+        </button>
+    </div>
+   <!--КОНЕЦ всей разметки для комментариев-->
+  </div>
+  <!-- SECOND VIEW END -->
+ </div>
+</div>
+
+

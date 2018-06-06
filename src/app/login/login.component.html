@@ -1,0 +1,74 @@
+<div class="login-container">
+  <div class="controls-container">
+    <button  [ngClass]="{'active-tab':IsLogin}" (click)="loginForm.reset();IsLogin=true;IsReg=false;">
+      Вход
+    </button>
+    <button [ngClass]="{'active-tab':IsReg}" (click)="regForm.reset();IsLogin=false;IsReg=true;">
+      Регистрация
+    </button>
+  </div>
+  <form [formGroup]="loginForm" (submit)="login()" >
+    <div class="login" *ngIf="IsLogin">
+      <span class="form-header">Вход</span>
+      <div class="input-container" [ngClass]="{'invalid-form': no_user || loginForm.get('loginAuth').invalid && loginForm.get('loginAuth').touched}" 
+                                   [ngClass]="{'valid-form': loginForm.valid}">
+        <input (focus)="no_user=false" formControlName="loginAuth" type="text" 
+               placeholder="Ваш логин" id="loginAuth" name='loginAuth'/>
+      </div>
+      <div class="error-login error-span">
+        <span 
+        *ngIf="loginForm.get('loginAuth').invalid && loginForm.get('loginAuth').touched" 
+        class="no_user_span_error">некорректный email адрес!</span>
+      </div>
+      <div class="input-container" [ngClass]="{'invalid-form': no_user || loginForm.get('passwordAuth').invalid && loginForm.get('passwordAuth').touched}" 
+                                   [ngClass]="{'valid-form': loginForm.valid}">
+        <input (focus)="no_user=false" formControlName="passwordAuth" type="password" 
+               placeholder="Ваш пароль" id="passwordAuth" name='passwordAuth'/>
+      </div>
+      <div class="error-password error-span">
+        <span 
+        *ngIf="loginForm.get('passwordAuth').invalid && loginForm.get('passwordAuth').touched" 
+         class="no_user_span_error">некорректный пароль!</span>
+        <span *ngIf="no_user" class="no_user_span_error">не верный логин или пароль</span>
+      </div>
+      <button class="btn btn-primary" type="submit">Вход</button>
+    </div>
+  </form>
+  
+  <!--!!!!!REGISRATION FORM!!!!!!-->
+
+  <form [formGroup]="regForm" (submit)="registration()">
+    <div class="registration" *ngIf="IsReg">
+    <span class="form-header">Регистрация</span>
+      <!--ПОЛЕ ВВОДА ЛОГИНА РЕГИСТРАЦИЯ-->
+      <div class="input-container" [ngClass]="{'valid-form': regForm.get('loginReg')?.valid && !isBusy}"
+                                   [ngClass]="{'invalid-form': regForm.get('loginReg')?.invalid && regForm.get('loginReg')?.dirty }">
+        <input (input)="checkLogiin($event.target.value)" 
+               placeholder="логин" name="loginReg" type="text" formControlName="loginReg" />
+      </div>
+
+      <!--ПОЛЕ ОШИБОК ВВОДА ЛОГИНА РЕГИСТРАЦИЯ-->
+      <div class="error-login error-span">
+          <span *ngIf="regForm.get('loginReg')?.errors?.isNumber && regForm?.get('loginReg')?.dirty" 
+          class="no_user_span_error">не может начинаться с цифры!</span>
+          <span *ngIf="isBusy"
+          class="no_user_span_error">логин занят</span>
+          <span *ngIf="regForm.get('loginReg')?.errors?.forbidden && regForm?.get('loginReg')?.dirty" class="no_user_span_error">содержит запрещенные символы!</span>
+      </div>
+
+
+      <!--ПОЛЕ ВВОДА ПАРОЛЯ РЕГИСТРАЦИЯ-->
+      <div class="input-container" [ngClass]="{'valid-form': regForm.get('passwordReg')?.valid}"
+                                   [ngClass]="{'invalid-form': regForm.get('passwordReg')?.invalid && regForm.get('passwordReg')?.dirty }">
+        <input type="password" name="passworReg" placeholder="Пароль" formControlName="passwordReg"/>
+      </div>
+
+      <!--ПОЛЕ ОШИБОК ВВОДА ПАРОЛЯ РЕГИСТРАЦИЯ-->
+      <div class="error-password error-span">
+          <span *ngIf="regForm.get('passwordReg')?.invalid && regForm?.get('passwordReg')?.dirty" 
+           class="no_user_span_error">не менее 6 символ!</span>
+        </div>
+      <button type="submit" class="btn btn-primary">Регистрация</button>
+    </div>
+  </form>
+</div>

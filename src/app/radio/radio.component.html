@@ -1,0 +1,13 @@
+<div class="now-playing">
+  <audio id="audio" controls #audio [src]="radio[0].Url"></audio>
+  <span style="padding-left: 20px;">сейчас играет: {{ current_station_name }}</span>
+</div>
+<div class="col-md-12 radio-container">
+  <div class="col-md-2 radio-item" *ngFor="let r of radio">
+    <img class="station_img" [src]="r.Poster" >
+    <div class="top-panel">
+      <button style="font-size: 60px" class="fa fa-play" (click)="playAudio(r.Url, audio)" ></button>
+      <span class="station-name">{{ r.Name }}</span>
+    </div>
+  </div>
+</div>
